@@ -1,0 +1,52 @@
+### TEST GET/WEBSIT
+GET http://localhost:5000
+
+### REGISTER
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "email": "tst", "password": "tst"
+}
+
+### LOGIN
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "tst", "password": "tst" 
+}
+
+### GET /EVENTS
+GET http://localhost:5000/events
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwNTE0MDg5LCJleHAiOjE3NjA2MDA0ODl9.WYjKRX37M5MJ8I4Q2GLWw-6mI8EcAWpMofU2jNkFJYQ
+
+### POST /EVENTS
+POST http://localhost:5000/events
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwNTE0MDg5LCJleHAiOjE3NjA2MDA0ODl9.WYjKRX37M5MJ8I4Q2GLWw-6mI8EcAWpMofU2jNkFJYQ
+Content-Type: application/json
+
+{
+    "description": "Zvezda - Panathinaikos",
+    "date": "2025-10-16",
+    "time": "20:00",
+    "location": "Belgrade Arena",
+    "type": "Basketball"
+}
+
+### PUT /EVENT
+PUT http://localhost:5000/events/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwNTE0MDg5LCJleHAiOjE3NjA2MDA0ODl9.WYjKRX37M5MJ8I4Q2GLWw-6mI8EcAWpMofU2jNkFJYQ
+Content-Type: application/json
+
+{
+    "description": "Zvezda - Real Madrid",
+    "date": "2025-10-17",
+    "time": "21:00",
+    "location": "Stark Arena",
+    "type": "Basketball"
+}
+
+### DELETE /EVENT
+DELETE http://localhost:5000/events/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwNTE0MDg5LCJleHAiOjE3NjA2MDA0ODl9.WYjKRX37M5MJ8I4Q2GLWw-6mI8EcAWpMofU2jNkFJYQ
