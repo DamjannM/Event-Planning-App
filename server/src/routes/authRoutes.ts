@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
     res.json({ token });
 
   } catch (error: any) {
-    if (error.code === "P2002" && error.meta?.target?.includes("email")) {
+    if (error.code === "ERR_SQLITE_ERROR" && error.message?.includes("UNIQUE constraint failed: users.email")) {
       return res.status(400).send({ message: "User already exists" });
     }
 
