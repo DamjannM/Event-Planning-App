@@ -14,8 +14,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     description TEXT,
-    date TEXT,
-    time TEXT,
+    title VARCHAR(20),
+    timestamp INTEGER,
     location TEXT,
     type TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id)

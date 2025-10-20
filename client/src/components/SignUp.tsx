@@ -54,7 +54,7 @@ const SignUp: React.FC<ChildProps> = ({ token, setIsRegistered }) => {
     return () => window.removeEventListener('keydown', handleEnterKeyDown);
   });
   return (
-    <Box className="mt-60 flex w-2xs flex-col items-center gap-4 rounded-4xl border-2 border-indigo-500 p-3 shadow-2xl shadow-indigo-200 h-80 bg-indigo-50 ">
+    <Box className="justify-center absolute top-1/3 mt-60 flex w-2xs flex-col items-center gap-4 rounded-4xl border-2 border-indigo-500 p-3 shadow-2xl shadow-indigo-200 h-80 bg-indigo-50 ">
       <Typography variant="subtitle2" className='!text-lg'>{serverMessage}</Typography>
       <TextField
         type="email"

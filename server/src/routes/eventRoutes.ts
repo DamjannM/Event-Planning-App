@@ -12,20 +12,20 @@ router.get('/', (req,res)=> {
 
 // create an event
 router.post('/', (req,res)=> {
-    const {description, date, time, location, type} = req.body
-    const insertEvent = db.prepare(`INSERT INTO events (user_id, description, date, time, location, type) VALUES (?, ?, ?, ?,?, ?)`)
-    const result = insertEvent.run(req.userId!,description, date, time, location, type)
+    const {description, title, timestamp, location, type} = req.body
+    const insertEvent = db.prepare(`INSERT INTO events (user_id, description, title, timestamp, location, type) VALUES (?, ?, ?, ?, ?, ?)`)
+    const result = insertEvent.run(req.userId!,description, title, timestamp, location, type)
 
-    res.json({id: result.lastInsertRowid, description, date, time, location, type})
+    res.json({id: result.lastInsertRowid, description, title, timestamp, location, type})
 })
 
 // update event
 router.put('/:id', (req,res)=> {
-    const {description, date, time, location, type} = req.body
+    const {description,title, timestamp, location, type} = req.body
     const {id} = req.params
 
-    const updatedEvent = db.prepare(`UPDATE events SET description = ?, date = ?, time = ?, location = ?, type = ? WHERE id = ?`)
-    const result = updatedEvent.run(description, date, time, location, type, id)
+    const updatedEvent = db.prepare(`UPDATE events SET description = ?, title =?, timestamp = ?, location = ?, type = ? WHERE id = ?`)
+    const result = updatedEvent.run(description,title, timestamp, location, type, id)
 
     res.json({message: "Event updated"})
 })
