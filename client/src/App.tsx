@@ -16,9 +16,9 @@ function App() {
   
 
   return (
-    <>
-    <div className="background overflow-hidden relative flex h-screen flex-col items-center text-center">
-      {isLogedIn ? (<div>
+    <div className="max-w-dvw min-h-screen background flex justify-center">
+    <div className="w-full relative flex flex-col items-center text-center background ">
+      {isLogedIn ? (<div className="flex flex-col w-full">
         <Header handleLogOut={handleLogOut}/>
         <UpcomingEvents/>
       </div>)
@@ -28,7 +28,7 @@ function App() {
         setIsLogedIn={setIsLogedIn}/>)
         : <SignUp token={token} setIsRegistered={setIsRegistered} />}
     </div>
-    </>
+    </div>
   )
 }
 

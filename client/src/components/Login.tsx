@@ -55,7 +55,6 @@ const Login: React.FC<ChildProps> = ({
     const handleEnterKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
       handleLogin();
-      console.log(event.key);
       }
     };
 
