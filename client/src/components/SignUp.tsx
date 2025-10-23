@@ -47,7 +47,6 @@ const SignUp: React.FC<ChildProps> = ({ token, setIsRegistered }) => {
   useEffect(() => {
     const handleEnterKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter') signUp();
-      console.log(event.key);
     };
 
     window.addEventListener('keydown', handleEnterKeyDown);

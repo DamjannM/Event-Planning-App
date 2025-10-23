@@ -2,8 +2,7 @@
 
 ### Frontend
 
-Created Card,Modal,UpcomingEvents components, created logic for creating and rendering event Cards.
-Implemented Material UI Date Picker into form in Modal.
+Responsive, fixed UI visual bugs, lifted Calendar state up so it can be shared with EventList component, connected Calendar with EventList, when clicking on date it shows events for that date. Days with events have dot below in calendar,on clicking event, opens DetailsModal with all information. Delete and Update Event.
 
 ## Installation
 
