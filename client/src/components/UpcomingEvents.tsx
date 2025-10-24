@@ -21,6 +21,9 @@ export function UpcomingEvents(){
     const [events, setEvents] = useState<EventItem[] | []>([]) 
     const [eventTypes,setEventTypes] = useState([])
     const [eventLocations,setEventLocations] = useState([])
+    const [typeFilter, setTypeFilter] = useState('all')
+    const [locationFilter, setLocationFilter] = useState('all')
+    const [searchValue,setSearchValue] = useState('')
     
     const currentDate = dayjs()
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -31,14 +34,17 @@ export function UpcomingEvents(){
     const [selectedDay, setSelectedDay]= useState(currentDate.date())
     const [selectedMonth, setSelectedMonth] = useState(currentMonth)
     const [selectedYear, setSelectedYear] = useState(currentYear)
-    const [typeFilter, setTypeFilter] = useState('all')
-    const [locationFilter, setLocationFilter] = useState('all')
 
     const token = localStorage.getItem('token') || undefined;
-    
+    const queryParams = new URLSearchParams({
+      type: typeFilter,
+      location: locationFilter,
+      search: searchValue,
+    }).toString();
+
     const fetchEvents = useCallback(async () => {
       try {
-        const response = await fetch(`http://localhost:5000/events?type=${typeFilter}&location=${locationFilter}`, {
+        const response = await fetch(`http://localhost:5000/events?${queryParams}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: token ? token : '',
@@ -53,7 +59,7 @@ export function UpcomingEvents(){
       }catch(err){
         console.log(err)
       }
-    },[token,typeFilter,locationFilter]
+    },[token,queryParams]
   )
 
     const fetchEventLocations = useCallback(async () => {
@@ -123,8 +129,10 @@ export function UpcomingEvents(){
             {eventLocations.map((location:string)=><option key={location} value={location}>{location}</option>)}
           </select>
         </div>
+          <input type="text" value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} placeholder={'Search events'} 
+            className="text-lg font-bold text-indigo-950 bg-gray-200 border-1 rounded-xl !p-1 min-w-30 h-8.5 max-w-40"/>
         <button
-        className="flex items-center justify-center p-3 bg-indigo-500 text-white rounded-full absolute top-2 right-2 w-6 h-6 hover:bg-indigo-700 hover:cursor-pointer">
+        className="flex items-center justify-center p-3 bg-indigo-500 text-white rounded-full absolute top-2 right-0 w-6 h-6 hover:bg-indigo-700 hover:cursor-pointer">
             <FiPlus onClick={()=>setShowModal(true)} size={20}/>
         </button>
         </div>

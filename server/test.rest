@@ -41,7 +41,7 @@ Content-Type: application/json
 {
     "title":"Partizan - Pariz",
     "description": "balet",
-    "timestamp": 1760982604630,
+    "timestamp": 1761394739000,
     "location": "Stark Arena",
     "type": "Balet"
 }
@@ -54,7 +54,7 @@ Content-Type: application/json
 {
     "title":"Utakmica kosarke",
     "description": "Zvezda - Baskonia",
-    "timestamp": 1760993404630,
+    "timestamp": 1761394739000,
     "location": "Stark Arena",
     "type": "Basketball"
 }

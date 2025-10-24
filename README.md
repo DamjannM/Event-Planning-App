@@ -2,11 +2,11 @@
 
 ### Frontend
 
-(BUGFIX) Filter options are dynamic based on all distinct values in database, updated after every change of events
+Search functionality
 
 ### Backend
 
-New routes for filtering and query.
+Updated routes for search functionality.
 
 ## Installation
 

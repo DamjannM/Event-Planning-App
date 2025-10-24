@@ -1,11 +1,17 @@
 import express from 'express'
 import db from '../db'
 
+interface EventQuery {
+    type?: string;
+    location?: string;
+    search?: string;
+}
+
 const router = express.Router()
 
 //Get all events filtered by type and location
 router.get(`/`, (req,res)=> {
-    const {type,location} = req.query
+    const {type,location,search}:EventQuery = req.query
     let query ='SELECT * FROM events WHERE user_id = ? '
     let params:any[] = [req.userId!]
 
@@ -17,6 +23,11 @@ router.get(`/`, (req,res)=> {
   if (location && location !== "all") {
     query += " AND location = ?";
     params.push(location);
+  }
+  if (search && search.trim() !== "") {
+    query += " AND (title LIKE ? OR description LIKE ? OR location LIKE ? OR type LIKE ?)";
+    const pattern = `%${search}%`;
+    params.push(pattern, pattern, pattern, pattern);
   }
     const getEvents = db.prepare(query)
     const events = getEvents.all(...params)
