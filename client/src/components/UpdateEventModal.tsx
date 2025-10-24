@@ -11,9 +11,11 @@ type UpdateEventModalProps = {
     event: EventObject
     setShowUpdateModal: React.Dispatch<React.SetStateAction<boolean>>,
     fetchEvents:()=>void
+    fetchEventLocations:()=>void
+    fetchEventTypes:()=>void
 }
 
-export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents}:UpdateEventModalProps){
+export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, fetchEventTypes, fetchEventLocations}:UpdateEventModalProps){
     const today = dayjs();
     const [title, setTitle] = useState(event.title)
     const [description, setDescription] = useState(event.description)
@@ -48,6 +50,8 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents}:U
             const data = await response.json();
             console.log(data);
             fetchEvents()
+            fetchEventLocations()
+            fetchEventTypes()
             setShowUpdateModal(false)
         }catch(err){
             console.log(err)
