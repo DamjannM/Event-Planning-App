@@ -39,6 +39,15 @@ export function Calendar({daysWithEvents, daysOfWeek, monthsOfYear, currentMonth
     const goToToday = () => {
         setCurrentMonth(currentDate.month())
         setCurrentYear(currentDate.year())
+        setSelectedDay(currentDate.date())
+        setSelectedMonth(currentDate.month())
+        setSelectedYear(currentDate.year())
+    }
+    
+    const selectDate = (day:number)=>{
+    setSelectedDay(day+1)
+    setSelectedMonth(currentMonth)
+    setSelectedYear(currentYear)
     }
 
     const isToday = (day:number) => {
@@ -54,7 +63,7 @@ export function Calendar({daysWithEvents, daysOfWeek, monthsOfYear, currentMonth
             <div className="">
                 <h1 className="text-2xl lg:text-4xl md:text-3xl font-bold text-indigo-950 ">Calendar</h1>
                 <div className="flex justify-between items-center gap-3 !m-2">
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
                     <h2 className="text-xl font-bold text-indigo-950 lg:text-3xl md:text-2xl">{monthsOfYear[currentMonth]}</h2>
                     <h2 className="text-xl lg:text-3xl md:text-2xl font-bold text-indigo-950">{currentYear}</h2>
                     <button className="bg-blue-300 rounded-xl !p-2 text-white font-bold cursor-pointer !ml-2 hover:bg-indigo-400 " onClick={goToToday}>Today</button>
@@ -72,7 +81,7 @@ export function Calendar({daysWithEvents, daysOfWeek, monthsOfYear, currentMonth
 
                     {[...Array(daysInMonth).keys()].map(day=><span className={`w-[calc(100%/7)] !my-2 flex lg:text-2xl md:text-xl items-center justify-center 
                         cursor-pointer text-indigo-950 font-bold relative ${isToday(day)} ${hasEvent(day)}`} key={day+1} 
-                        onClick={()=>(setSelectedDay(day+1),setSelectedMonth(currentMonth),setSelectedYear(currentYear))}>{day+1}</span>)}
+                        onClick={()=>selectDate(day)}>{day+1}</span>)}
                 </div>
             </div>
         </div>

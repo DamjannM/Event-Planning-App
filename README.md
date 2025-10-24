@@ -2,7 +2,7 @@
 
 ### Frontend
 
-Responsive, fixed UI visual bugs, lifted Calendar state up so it can be shared with EventList component, connected Calendar with EventList, when clicking on date it shows events for that date. Days with events have dot below in calendar,on clicking event, opens DetailsModal with all information. Delete and Update Event.
+Filter options are dynamic based on all distinct values in database, updated after every change of events, new routes for filtering and query.
 
 ## Installation
 
