@@ -16,7 +16,7 @@ function App() {
   
 
   return (
-    <div className="max-w-dvw min-h-screen background flex justify-center">
+    <div className="max-w-dvw min-h-screen background flex justify-center min-w-90">
     <div className="w-full relative flex flex-col items-center text-center background ">
       {isLogedIn ? (<div className="flex flex-col w-full">
         <Header handleLogOut={handleLogOut}/>

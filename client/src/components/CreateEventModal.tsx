@@ -9,9 +9,11 @@ import { useState } from "react";
 type CreateEventModalProps = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     fetchEvents:() => Promise<void>,
+    fetchEventTypes:() => Promise<void>,
+    fetchEventLocations:() => Promise<void>,
 }
 
-export function CreateEventModal({setShowModal, fetchEvents}: CreateEventModalProps){
+export function CreateEventModal({setShowModal, fetchEvents, fetchEventTypes, fetchEventLocations}: CreateEventModalProps){
     const today = dayjs();
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -45,6 +47,8 @@ export function CreateEventModal({setShowModal, fetchEvents}: CreateEventModalPr
             const data = await response.json();
             console.log(data);
             fetchEvents()
+            fetchEventTypes()
+            fetchEventLocations()
             setShowModal(false)
         }catch(err){
             console.log(err)

@@ -25,7 +25,7 @@ export function DetailsModal({events,setShowModal, isOpen, monthsOfYear}:Details
             <div className="flex justify-between !m-3">
                 <p className="text-indigo-950 md:text-xl lg:text-2xl">{events.location}</p>
                 <div className="flex gap-3">
-                <p className="text-indigo-950 md:text-xl lg:text-2xl">{day.getDay()}. {monthsOfYear[day.getMonth()]} {day.getFullYear()}</p>
+                <p className="text-indigo-950 md:text-xl lg:text-2xl">{day.getDay()}. {monthsOfYear[day.getMonth()]} {day.getFullYear()}.</p>
                 <p className="text-indigo-950 md:text-xl lg:text-2xl flex items-center">{hours}:{minutes}</p>
                 </div>
             </div>

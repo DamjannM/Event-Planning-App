@@ -3,9 +3,36 @@ import db from '../db'
 
 const router = express.Router()
 
-//Get all events
-router.get('/', (req,res)=> {
-    const getEvents = db.prepare('SELECT * FROM events WHERE user_id = ?')
+//Get all events filtered by type and location
+router.get(`/`, (req,res)=> {
+    const {type,location} = req.query
+    let query ='SELECT * FROM events WHERE user_id = ? '
+    let params:any[] = [req.userId!]
+
+    if (type && type !== "all") {
+    query += " AND type = ?";
+    params.push(type);
+  }
+
+  if (location && location !== "all") {
+    query += " AND location = ?";
+    params.push(location);
+  }
+    const getEvents = db.prepare(query)
+    const events = getEvents.all(...params)
+    res.json(events)
+})
+
+//Get all events locations
+router.get('/location', (req,res)=> {
+    const getEvents = db.prepare('SELECT DISTINCT location FROM events WHERE user_id = ?')
+    const events = getEvents.all(req.userId!)
+    res.json(events)
+})
+
+//Get all events type
+router.get('/type', (req,res)=> {
+    const getEvents = db.prepare('SELECT DISTINCT type FROM events WHERE user_id = ?')
     const events = getEvents.all(req.userId!)
     res.json(events)
 })

@@ -1,4 +1,4 @@
-### TEST GET/WEBSIT
+### TEST GET/WEBSITE
 GET http://localhost:5000
 
 ### REGISTER
@@ -6,7 +6,7 @@ POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "tst", "password": "tst"
+    "email": "test@gmail.com", "password": "sifra123"
 }
 
 ### LOGIN
@@ -19,24 +19,36 @@ Content-Type: application/json
 
 ### GET /EVENTS
 GET http://localhost:5000/events
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwOTU4OTAxLCJleHAiOjE3NjEwNDUzMDF9.lbX7x5U_NyUCjB6m-Sz4u4ipm2Fo7ovUV6QzLK5LNHU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
+
+### GET /EVENTS/FILTERED
+GET http://localhost:5000/events?location=Stark Arena&type=Basketball
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
+
+### GET /EVENTS LOCATIONS
+GET http://localhost:5000/events/location
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
+
+### GET /EVENTS TYPES
+GET http://localhost:5000/events/type
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
 
 ### POST /EVENTS
 POST http://localhost:5000/events
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwOTU4OTAxLCJleHAiOjE3NjEwNDUzMDF9.lbX7x5U_NyUCjB6m-Sz4u4ipm2Fo7ovUV6QzLK5LNHU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
 Content-Type: application/json
 
 {
-    "title":"Kosarkaska utakmica",
-    "description": "Zvezda - Real Madrid",
+    "title":"Partizan - Pariz",
+    "description": "balet",
     "timestamp": 1760982604630,
-    "location": "Belgrade Arena",
-    "type": "Basketball"
+    "location": "Stark Arena",
+    "type": "Balet"
 }
 
 ### PUT /EVENT
 PUT http://localhost:5000/events/2
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwOTU4OTAxLCJleHAiOjE3NjEwNDUzMDF9.lbX7x5U_NyUCjB6m-Sz4u4ipm2Fo7ovUV6QzLK5LNHU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
 Content-Type: application/json
 
 {
@@ -49,4 +61,4 @@ Content-Type: application/json
 
 ### DELETE /EVENT
 DELETE http://localhost:5000/events/2
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYwOTU4OTAxLCJleHAiOjE3NjEwNDUzMDF9.lbX7x5U_NyUCjB6m-Sz4u4ipm2Fo7ovUV6QzLK5LNHU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxMjk0ODUyLCJleHAiOjE3NjEzODEyNTJ9.Ya5bRmVcq37Ga435PfD23tbLDnXOCaxerddsR261nAM
