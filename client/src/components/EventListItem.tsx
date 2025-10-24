@@ -27,6 +27,8 @@ export function EventListItem({event,fetchEvents,fetchEventTypes,fetchEventLocat
             })
             console.log(response)
             fetchEvents()
+            fetchEventLocations()
+            fetchEventTypes()
         }
         catch(err){
         console.log(err)
@@ -41,10 +43,10 @@ export function EventListItem({event,fetchEvents,fetchEventTypes,fetchEventLocat
                 <p className="text-lg">{(date.getHours()<10)? '0'+date.getHours(): date.getHours()}:{(date.getMinutes()<10)? '0'+date.getMinutes(): date.getMinutes()}</p>
             </div>
             <div onClick={()=>setShowModal(true)} className="cursor-pointer flex text-3xl items-center w-10/12 justify-center">{event.title}</div>
-            <div className="flex flex-col !m-2 text-2xl gap-5 justify-center cursor-pointer"><FaTrashAlt onClick={()=>(handleDelete(event.id), fetchEventLocations(),fetchEventTypes())}/><FaPen onClick={()=>setShowUpdateModal(true)}/></div>
+            <div className="flex flex-col !m-2 text-2xl gap-5 justify-center cursor-pointer"><FaTrashAlt onClick={()=>handleDelete(event.id)}/><FaPen onClick={()=>setShowUpdateModal(true)}/></div>
         </div>
         <DetailsModal events={event} setShowModal={setShowModal} isOpen={showModal} monthsOfYear={monthsOfYear}/>
-        <UpdateEventModal isOpen={showUpdateModal} setShowUpdateModal={setShowUpdateModal} event={event} fetchEvents={fetchEvents}/>
+        <UpdateEventModal isOpen={showUpdateModal} setShowUpdateModal={setShowUpdateModal} event={event} fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
         </>
     )
 }
