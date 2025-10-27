@@ -1,5 +1,6 @@
 import express from 'express'
 import db from '../db'
+import { notifyAllClients } from "../server";
 
 interface EventQuery {
     type?: string;
@@ -54,7 +55,9 @@ router.post('/', (req,res)=> {
     const insertEvent = db.prepare(`INSERT INTO events (user_id, description, title, timestamp, location, type) VALUES (?, ?, ?, ?, ?, ?)`)
     const result = insertEvent.run(req.userId!,description, title, timestamp, location, type)
 
-    res.json({id: result.lastInsertRowid, description, title, timestamp, location, type})
+    const newEvent = ({id: result.lastInsertRowid, description, title, timestamp, location, type})
+    notifyAllClients("event_created", newEvent)
+    res.json(newEvent)
 })
 
 // update event
@@ -64,6 +67,7 @@ router.put('/:id', (req,res)=> {
 
     const updatedEvent = db.prepare(`UPDATE events SET description = ?, title =?, timestamp = ?, location = ?, type = ? WHERE id = ?`)
     const result = updatedEvent.run(description,title, timestamp, location, type, id)
+    notifyAllClients("event_updated", result)
 
     res.json({message: "Event updated"})
 })
@@ -73,7 +77,8 @@ router.delete('/:id', (req,res)=> {
     const {id} = req.params
     const userId = req.userId!
     const deleteEvent = db.prepare(`DELETE FROM events WHERE id = ? AND user_id = ?`)
-    deleteEvent.run(id, userId)
+    const result = deleteEvent.run(id, userId)
+    notifyAllClients("event_deleted", result)
     res.json({message: "Event deleted"})
 })
 

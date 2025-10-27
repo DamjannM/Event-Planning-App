@@ -5,6 +5,7 @@ import { CreateEventModal } from "./CreateEventModal";
 import dayjs from "dayjs";
 import { Calendar } from "./Calendar";
 import { EventList } from "./EventList";
+import { socket } from "../socket";
 
 interface EventItem {
     id: number,
@@ -25,7 +26,7 @@ export function UpcomingEvents(){
     const [locationFilter, setLocationFilter] = useState('all')
     const [searchValue,setSearchValue] = useState('')
     
-    const currentDate = dayjs()
+    const [currentDate,setCurrentDate] = useState(dayjs())
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
@@ -103,15 +104,35 @@ export function UpcomingEvents(){
     const daysWithEvents = events!.map((e:EventItem)=> ({day: dayjs(e.timestamp).date(),month: dayjs(e.timestamp).month(),year: dayjs(e.timestamp).year()}))
     
     useEffect(()=>{
+      const interval = setInterval(()=>{
+        setCurrentDate(dayjs())
+      },30 * 1000)
+
+      return () => clearInterval(interval)
+    },[])
+
+    useEffect(()=>{
       fetchEvents()
       fetchEventLocations()
       fetchEventTypes()
     },[fetchEventLocations, fetchEventTypes, fetchEvents])
 
+    useEffect(() => {
+    socket.on("event_created", fetchEvents);
+    socket.on("event_updated", fetchEvents);
+    socket.on("event_deleted", fetchEvents);
+
+    return () => {
+      socket.off("event_created", fetchEvents);
+      socket.off("event_updated", fetchEvents);
+      socket.off("event_deleted", fetchEvents);
+    };
+  }, [fetchEvents]);
+
   return <>
     {openModal ? <CreateEventModal setShowModal={setShowModal} fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/> : null}
     <div className="min-h-80 bg-transparent relative text-sm sm:text-base justify-between flex flex-col !m-2 rounded-2xl  ">
-      <div className="flex flex-col sm:flex-row !mb-2 gap-2 items-start sm:items-center">
+      <div className="flex flex-col sm:flex-row !mb-2 !mr-7 gap-2 items-start sm:items-center">
         <p className="text-xl font-bold text-indigo-950 ">Upcoming Events</p>
         <div className="items-center md:flex gap-2">
           <label className="text-indigo-950 text-lg">Filter by type: </label>

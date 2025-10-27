@@ -3,8 +3,8 @@ import { Button } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useState } from "react";
-import dayjs, {Dayjs} from 'dayjs'
+import { useEffect, useState } from "react";
+import dayjs, { Dayjs } from 'dayjs'
 
 type UpdateEventModalProps = {
     isOpen: boolean,
@@ -22,7 +22,7 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, f
     const [location, setLocation] = useState(event.location)
     const [type, setType] = useState(event.type)
     const date = dayjs(event.timestamp)
-    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(today)
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(event.timestamp))
     const timestamp = selectedDate?.valueOf()
 
     async function handleUpdate(id:number) {
@@ -57,6 +57,16 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, f
             console.log(err)
         }
     }
+
+    useEffect(()=>{
+        if(event){
+            setDescription(event.description)
+            setTitle(event.title)
+            setLocation(event.location)
+            setType(event.type)
+            setSelectedDate(dayjs(event.timestamp))
+        }
+},[event])
 
     if(!isOpen){
         return
