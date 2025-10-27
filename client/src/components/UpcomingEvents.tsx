@@ -42,14 +42,16 @@ export function UpcomingEvents(){
       location: locationFilter,
       search: searchValue,
     }).toString();
-
-    const fetchEvents = useCallback(async () => {
+    
+    
+    const fetchEvents = useCallback(async (signal?:AbortSignal) => {
       try {
         const response = await fetch(`http://localhost:5000/events?${queryParams}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: token ? token : '',
           },
+          signal
         });
         if (!response.ok) {
           throw new Error('Failed to fetch events');
@@ -63,24 +65,26 @@ export function UpcomingEvents(){
     },[token,queryParams]
   )
 
-    const fetchEventLocations = useCallback(async () => {
-      try {
-        const response = await fetch('http://localhost:5000/events/location', {
-          headers: {
-            Authorization: token ? token : '',
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
-        const data = await response.json();
-        setEventLocations(data.map((item:{location:string})=>item.location))
-        
-      }catch(err){
-        console.log(err)
+  
+  
+  const fetchEventLocations = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:5000/events/location', {
+        headers: {
+          Authorization: token ? token : '',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch events');
       }
-    },[token]
-  )
+      const data = await response.json();
+      setEventLocations(data.map((item:{location:string})=>item.location))
+      
+    }catch(err){
+      console.log(err)
+    }
+  },[token]
+)
 
     const fetchEventTypes = useCallback(async () => {
       try {
@@ -100,28 +104,33 @@ export function UpcomingEvents(){
       }
     },[token]
   )
+  
+  const daysWithEvents = events!.map((e:EventItem)=> ({day: dayjs(e.timestamp).date(),month: dayjs(e.timestamp).month(),year: dayjs(e.timestamp).year()}))
+  
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      setCurrentDate(dayjs())
+    },30 * 1000)
     
-    const daysWithEvents = events!.map((e:EventItem)=> ({day: dayjs(e.timestamp).date(),month: dayjs(e.timestamp).month(),year: dayjs(e.timestamp).year()}))
-    
-    useEffect(()=>{
-      const interval = setInterval(()=>{
-        setCurrentDate(dayjs())
-      },30 * 1000)
-
-      return () => clearInterval(interval)
-    },[])
-
-    useEffect(()=>{
-      fetchEvents()
-      fetchEventLocations()
-      fetchEventTypes()
-    },[fetchEventLocations, fetchEventTypes, fetchEvents])
-
-    useEffect(() => {
+    return () => clearInterval(interval)
+  },[])
+  
+  useEffect(()=>{
+    const controller = new AbortController();
+    fetchEvents(controller.signal);
+    return () => controller.abort();
+  },[fetchEvents])
+  
+  useEffect(()=>{
+    fetchEventLocations()
+    fetchEventTypes()
+  },[fetchEventLocations, fetchEventTypes])
+  
+  useEffect(() => {
     socket.on("event_created", fetchEvents);
     socket.on("event_updated", fetchEvents);
     socket.on("event_deleted", fetchEvents);
-
+    
     return () => {
       socket.off("event_created", fetchEvents);
       socket.off("event_updated", fetchEvents);
@@ -168,8 +177,12 @@ export function UpcomingEvents(){
         </div>
     </div>
     <div className="flex flex-col md:flex-row bg-transparent gap-2">
-        <Calendar daysWithEvents={daysWithEvents} daysOfWeek={daysOfWeek} monthsOfYear={monthsOfYear} currentMonth={currentMonth} currentYear={currentYear} setCurrentMonth={setCurrentMonth} setCurrentYear={setCurrentYear} currentDate={currentDate} setSelectedDay={setSelectedDay} setSelectedMonth={setSelectedMonth} setSelectedYear={setSelectedYear}/>
-        <EventList events={events}  selectedMonth={selectedMonth} selectedYear={selectedYear} selectedDay={selectedDay} fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
+        <Calendar daysWithEvents={daysWithEvents} daysOfWeek={daysOfWeek} monthsOfYear={monthsOfYear} currentMonth={currentMonth} 
+        currentYear={currentYear} setCurrentMonth={setCurrentMonth} setCurrentYear={setCurrentYear} currentDate={currentDate} 
+        selectedDay={selectedDay} selectedMonth={selectedMonth} selectedYear={selectedYear} setSelectedDay={setSelectedDay} 
+        setSelectedMonth={setSelectedMonth} setSelectedYear={setSelectedYear}/>
+        <EventList events={events}  selectedMonth={selectedMonth} selectedYear={selectedYear} selectedDay={selectedDay} 
+        fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
     </div>
     </>
 }

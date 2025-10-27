@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Search functionality
+fixed bugs, setInterval for upcoming events, abort Controller for fetching requests on search input, selected date background
 
 ### Backend
 
-Updated routes for search functionality.
+/
 
 ## Installation
 
