@@ -31,15 +31,24 @@ io.on("connection", (socket) => {
   });
 });
 
+let notified = new Set<number>()
 setInterval(() => {
-  const now = Date.now();
-  const upcoming = db.prepare(
-    "SELECT * FROM events WHERE timestamp BETWEEN ? AND ?"
-  ).all(now, now + 10 * 60 * 1000); 
-
-  upcoming.forEach(event => {
-    io.emit("eventReminder", event);
-  });
+  try{
+    const now = Date.now();
+    const upcoming = db.prepare(
+      "SELECT * FROM events WHERE timestamp BETWEEN ? AND ?"
+    ).all(now, now + 10 * 60 * 1000); 
+    
+    upcoming.forEach(event => {
+      const id = event.id as number;
+      if (!notified.has(id)) {
+        io.emit("event_reminder", event);
+        notified.add(id);
+      }
+    });
+  }catch( err){
+    console.log(`error ${err}`)
+  }
 }, 60 * 1000)
 
 export const notifyAllClients = (eventName: string, data: any) => {

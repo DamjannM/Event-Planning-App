@@ -134,7 +134,6 @@ export function UpcomingEvents(){
   });
 
   socket.on("event_updated", (event) => {
-    console.log(event)
     toast.success(`Event '${event}' updated `);
     fetchEvents();
   });
@@ -144,10 +143,17 @@ export function UpcomingEvents(){
     fetchEvents();
   });
 
+  socket.on("event_reminder", (event
+  ) => {
+    toast.success(`Event ${event.title} in 10 minutes`);
+    fetchEvents();
+  });
+
   return () => {
     socket.off("event_created");
     socket.off("event_updated");
     socket.off("event_deleted");
+    socket.off("event_reminder")
   };
 }, [fetchEvents]);
 
