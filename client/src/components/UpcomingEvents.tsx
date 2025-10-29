@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Calendar } from "./Calendar";
 import { EventList } from "./EventList";
 import { socket } from "../socket";
+import { toast, Toaster } from "react-hot-toast";
 
 interface EventItem {
     id: number,
@@ -127,18 +128,37 @@ export function UpcomingEvents(){
   },[fetchEventLocations, fetchEventTypes])
   
   useEffect(() => {
-    socket.on("event_created", fetchEvents);
-    socket.on("event_updated", fetchEvents);
-    socket.on("event_deleted", fetchEvents);
-    
-    return () => {
-      socket.off("event_created", fetchEvents);
-      socket.off("event_updated", fetchEvents);
-      socket.off("event_deleted", fetchEvents);
-    };
-  }, [fetchEvents]);
+  socket.on("event_created", (event) => {
+    toast.success(`New event: ${event.title}`);
+    fetchEvents();
+  });
+
+  socket.on("event_updated", (event) => {
+    toast.success(`Event '${event}' updated `);
+    fetchEvents();
+  });
+  
+  socket.on("event_deleted", () => {
+    toast.success(`Event deleted`);
+    fetchEvents();
+  });
+
+  socket.on("event_reminder", (event
+  ) => {
+    toast.success(`Event ${event.title} in 10 minutes`);
+    fetchEvents();
+  });
+
+  return () => {
+    socket.off("event_created");
+    socket.off("event_updated");
+    socket.off("event_deleted");
+    socket.off("event_reminder")
+  };
+}, [fetchEvents]);
 
   return <>
+    <Toaster position="top-center" />
     {openModal ? <CreateEventModal setShowModal={setShowModal} fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/> : null}
     <div className="min-h-80 bg-transparent relative text-sm sm:text-base justify-between flex flex-col !m-2 rounded-2xl  ">
       <div className="flex flex-col sm:flex-row !mb-2 !mr-7 gap-2 items-start sm:items-center">

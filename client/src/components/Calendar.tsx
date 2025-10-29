@@ -66,7 +66,7 @@ export function Calendar({daysWithEvents, daysOfWeek, monthsOfYear, currentMonth
     }
 
     return (
-        <div className="bg-gray-50 !mb-5 !pb-10 !ml-5 !mr-5 !mt-3 shadow-2xl border-1 border-gray-200 rounded-3xl min-w-80 lg:max-h-110 md:max-h-105 max-h-92 md:w-[calc(100%/3)]">
+        <div className="bg-gray-50 !mb-5 !pb-10 !ml-5 !mr-5 !mt-3 shadow-2xl border-1 border-gray-200 rounded-3xl min-w-80 lg:max-h-110 md:max-h-99 max-h-92 md:w-[calc(100%/3)]">
             <div className="">
                 <h1 className="text-2xl lg:text-4xl md:text-3xl font-bold text-indigo-950 ">Calendar</h1>
                 <div className="relative flex justify-between items-center gap-2 !m-2 !mr-1">

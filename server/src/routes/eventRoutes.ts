@@ -10,7 +10,7 @@ interface EventQuery {
 
 const router = express.Router()
 
-//Get all events filtered by type and location
+//Get all events for user filtered by type and location
 router.get(`/`, (req,res)=> {
     const {type,location,search}:EventQuery = req.query
     let query ='SELECT * FROM events WHERE user_id = ? '
@@ -67,9 +67,13 @@ router.put('/:id', (req,res)=> {
 
     const updatedEvent = db.prepare(`UPDATE events SET description = ?, title =?, timestamp = ?, location = ?, type = ? WHERE id = ?`)
     const result = updatedEvent.run(description,title, timestamp, location, type, id)
-    notifyAllClients("event_updated", result)
+    notifyAllClients("event_updated", title)
 
-    res.json({message: "Event updated"})
+    res.json({
+        message: "Event updated",
+        result
+        }
+    )
 })
 
 //delete event
@@ -79,7 +83,9 @@ router.delete('/:id', (req,res)=> {
     const deleteEvent = db.prepare(`DELETE FROM events WHERE id = ? AND user_id = ?`)
     const result = deleteEvent.run(id, userId)
     notifyAllClients("event_deleted", result)
-    res.json({message: "Event deleted"})
+    res.json({message: "Event deleted",
+        result
+    })
 })
 
 export default router
