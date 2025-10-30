@@ -8,19 +8,11 @@ import { EventList } from "./EventList";
 import { socket } from "../socket";
 import { toast, Toaster } from "react-hot-toast";
 
-interface EventItem {
-    id: number,
-  title: string;
-  description: string;
-  timestamp: number;
-  location: string;
-  type: string;
-  user_id: number
-}
 
 export function UpcomingEvents(){
     const [openModal, setShowModal] = useState(false)
-    const [events, setEvents] = useState<EventItem[] | []>([]) 
+    const [globalEvents, setGlobalEvents] = useState<EventObject[] | []>([]) 
+    const [events,setEvents] = useState<EventObject[] | []>([])
     const [eventTypes,setEventTypes] = useState([])
     const [eventLocations,setEventLocations] = useState([])
     const [typeFilter, setTypeFilter] = useState('all')
@@ -37,7 +29,7 @@ export function UpcomingEvents(){
     const [selectedMonth, setSelectedMonth] = useState(currentMonth)
     const [selectedYear, setSelectedYear] = useState(currentYear)
 
-    const token = localStorage.getItem('token') || undefined;
+    const token = sessionStorage.getItem('token') || undefined;
     const queryParams = new URLSearchParams({
       type: typeFilter,
       location: locationFilter,
@@ -45,28 +37,47 @@ export function UpcomingEvents(){
     }).toString();
     
     
-    const fetchEvents = useCallback(async (signal?:AbortSignal) => {
-      try {
-        const response = await fetch(`http://localhost:5000/events?${queryParams}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token ? token : '',
-          },
-          signal
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
-        const data = await response.json();
-        setEvents(data)
-        
-      }catch(err){
-        console.log(err)
+  const fetchAllEvents = useCallback(async (signal?:AbortSignal) => {
+    try {
+      const response = await fetch(`http://localhost:5000/events/all?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token ? token : '',
+        },
+        signal
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch events');
       }
-    },[token,queryParams]
+      const data = await response.json();
+      setGlobalEvents(data)
+      
+    }catch(err){
+      console.log(err)
+    }
+  },[token,queryParams]
   )
 
-  
+    const fetchUserEvents = useCallback(async (signal?:AbortSignal) => {
+    try {
+      const response = await fetch(`http://localhost:5000/events/?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token ? token : '',
+        },
+        signal
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch events');
+      }
+      const data = await response.json();
+      setEvents(data)
+      
+    }catch(err){
+      console.log(err)
+    }
+  },[token,queryParams]
+  )
   
   const fetchEventLocations = useCallback(async () => {
     try {
@@ -106,7 +117,7 @@ export function UpcomingEvents(){
     },[token]
   )
   
-  const daysWithEvents = events!.map((e:EventItem)=> ({day: dayjs(e.timestamp).date(),month: dayjs(e.timestamp).month(),year: dayjs(e.timestamp).year()}))
+  const daysWithEvents = events!.map((e:EventObject)=> ({day: dayjs(e.timestamp).date(),month: dayjs(e.timestamp).month(),year: dayjs(e.timestamp).year()}))
   
   useEffect(()=>{
     const interval = setInterval(()=>{
@@ -118,9 +129,10 @@ export function UpcomingEvents(){
   
   useEffect(()=>{
     const controller = new AbortController();
-    fetchEvents(controller.signal);
+    fetchAllEvents(controller.signal);
+    fetchUserEvents(controller.signal)
     return () => controller.abort();
-  },[fetchEvents])
+  },[fetchAllEvents, fetchUserEvents])
   
   useEffect(()=>{
     fetchEventLocations()
@@ -130,23 +142,31 @@ export function UpcomingEvents(){
   useEffect(() => {
   socket.on("event_created", (event) => {
     toast.success(`New event: ${event.title}`);
-    fetchEvents();
+    fetchAllEvents()
+    fetchUserEvents();
+    fetchEventLocations()
+    fetchEventTypes()
   });
 
   socket.on("event_updated", (event) => {
     toast.success(`Event '${event}' updated `);
-    fetchEvents();
+    fetchAllEvents();
+    fetchUserEvents();
+    fetchEventLocations()
+    fetchEventTypes()
   });
   
   socket.on("event_deleted", () => {
-    toast.success(`Event deleted`);
-    fetchEvents();
+    toast.success(`Event canceled`);
+    fetchAllEvents();
+    fetchUserEvents();
+    fetchEventLocations()
+    fetchEventTypes()
   });
 
   socket.on("event_reminder", (event
   ) => {
     toast.success(`Event ${event.title} in 10 minutes`);
-    fetchEvents();
   });
 
   return () => {
@@ -155,11 +175,11 @@ export function UpcomingEvents(){
     socket.off("event_deleted");
     socket.off("event_reminder")
   };
-}, [fetchEvents]);
+}, [fetchAllEvents,fetchUserEvents,fetchEventLocations,fetchEventTypes]);
 
   return <>
     <Toaster position="top-center" />
-    {openModal ? <CreateEventModal setShowModal={setShowModal} fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/> : null}
+    {openModal ? <CreateEventModal setShowModal={setShowModal} fetchEvents={fetchAllEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/> : null}
     <div className="min-h-80 bg-transparent relative text-sm sm:text-base justify-between flex flex-col !m-2 rounded-2xl  ">
       <div className="flex flex-col sm:flex-row !mb-2 !mr-7 gap-2 items-start sm:items-center">
         <p className="text-xl font-bold text-indigo-950 ">Upcoming Events</p>
@@ -188,21 +208,22 @@ export function UpcomingEvents(){
         </div>
         <div className="relative overflow-visible">
             <div className="flex !gap-1.5 overflow-x-scroll scroll-hide !pb-7">
-                {events?.slice()
+                {globalEvents?.slice()
                 .sort((a, b) => a.timestamp - b.timestamp)
                 .map(e => ((e.timestamp<currentDate.valueOf())? null :
-                    <Card key={e.id} event={e}/>
+                    <Card key={e.id} event={e} fetchUserEvents={fetchUserEvents}/>
                 ))}
             </div>
         </div>
     </div>
+    <p className="text-2xl font-bold text-indigo-950 ">Your Events</p>
     <div className="flex flex-col md:flex-row bg-transparent gap-2">
         <Calendar daysWithEvents={daysWithEvents} daysOfWeek={daysOfWeek} monthsOfYear={monthsOfYear} currentMonth={currentMonth} 
         currentYear={currentYear} setCurrentMonth={setCurrentMonth} setCurrentYear={setCurrentYear} currentDate={currentDate} 
         selectedDay={selectedDay} selectedMonth={selectedMonth} selectedYear={selectedYear} setSelectedDay={setSelectedDay} 
         setSelectedMonth={setSelectedMonth} setSelectedYear={setSelectedYear}/>
         <EventList events={events}  selectedMonth={selectedMonth} selectedYear={selectedYear} selectedDay={selectedDay} 
-        fetchEvents={fetchEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
+        fetchEvents={fetchUserEvents} fetchUserEvents={fetchUserEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
     </div>
     </>
 }

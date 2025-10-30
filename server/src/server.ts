@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-
 import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import authMiddleware from "./middleware/authMiddleware";
@@ -42,6 +41,7 @@ setInterval(() => {
     upcoming.forEach(event => {
       const id = event.id as number;
       if (!notified.has(id)) {
+        console.log('event reminder for event', event)
         io.emit("event_reminder", event);
         notified.add(id);
       }

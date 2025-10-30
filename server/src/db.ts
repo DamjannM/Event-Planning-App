@@ -22,4 +22,13 @@ db.exec(`
   )
 `)
 
+db.exec(`
+  CREATE TABLE event_participants (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  role TEXT CHECK(role IN ('creator', 'visitor')) NOT NULL
+  )
+`)
+
 export default db

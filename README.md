@@ -2,11 +2,11 @@
 
 ### Frontend
 
-fixed bugs, setInterval for upcoming events, abort Controller for fetching requests on search input, selected date background
+Refactored HTTP requests and added new one for joining and canceling participation in events. Changed token to sessionStorage.
 
 ### Backend
 
-/
+New routes for joining event, new database for event participants.
 
 ## Installation
 
