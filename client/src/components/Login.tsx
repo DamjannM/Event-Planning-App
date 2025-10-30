@@ -42,7 +42,7 @@ const Login: React.FC<ChildProps> = ({
 
       if (data.token) {
         token = data.token;
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
       } else {
         throw Error('❌ Failed to authenticate...');
       }

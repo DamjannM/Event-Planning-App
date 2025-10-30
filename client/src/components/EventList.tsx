@@ -6,11 +6,12 @@ type EventListProps = {
     selectedYear: number,
     selectedDay: number,
     fetchEvents: ()=>void
+    fetchUserEvents: ()=> void,
     fetchEventTypes: ()=>void,
     fetchEventLocations: ()=>void,
 }
 
-export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEvents, fetchEventTypes, fetchEventLocations}:EventListProps){
+export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEvents,fetchUserEvents, fetchEventTypes, fetchEventLocations}:EventListProps){
     const filteredEvents = events
     .slice()
     .sort((a, b) => a.timestamp - b.timestamp)
@@ -27,8 +28,8 @@ export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEv
                 .slice().sort((a,b) => a.timestamp - b.timestamp)
                 .map(e => (
                     (new Date(e.timestamp).getDate()== selectedDay && new Date(e.timestamp).getMonth()==selectedMonth && new Date(e.timestamp).getFullYear()== selectedYear)
-                    ?<EventListItem key={e.id} event={e} fetchEvents={fetchEvents} fetchEventLocations={fetchEventLocations} fetchEventTypes={fetchEventTypes}/>
-                    : '')) : <div className="text-black text-xl !ml-12">No events for selected date</div>}
+                    ?<EventListItem key={e.id} event={e} fetchEvents={fetchEvents} fetchUserEvents={fetchUserEvents} fetchEventLocations={fetchEventLocations} fetchEventTypes={fetchEventTypes}/>
+                    : '')) : <div className="text-black text-xl !ml-12">You dont have events for selected date</div>}
             {}
         </div>
     )

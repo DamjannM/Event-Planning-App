@@ -6,7 +6,7 @@ POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com", "password": "sifra123"
+    "email": "ts@gmail.com", "password": "sifra123"
 }
 
 ### LOGIN
@@ -18,8 +18,8 @@ Content-Type: application/json
 }
 
 ### GET /EVENTS
-GET http://localhost:5000/events
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzI4MTc3LCJleHAiOjE3NjE4MTQ1Nzd9.xzBBqkejKs_6buq1M9w3Ppu_ooMnHJO7QZBdnTippBg
+GET http://localhost:5000/events/all
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzYxNzQxNTgzLCJleHAiOjE3NjE4Mjc5ODN9.aVmm1T6Zlira5EI5ZijMqjDBEet1w3iV0cquseUizzY
 
 ### GET /EVENTS/FILTERED
 GET http://localhost:5000/events?location=Stark Arena&type=Basketball
@@ -35,28 +35,30 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzI4
 
 ### POST /EVENTS
 POST http://localhost:5000/events
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzI4MTc3LCJleHAiOjE3NjE4MTQ1Nzd9.xzBBqkejKs_6buq1M9w3Ppu_ooMnHJO7QZBdnTippBg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzM1ODg2LCJleHAiOjE3NjE4MjIyODZ9.g3xtq_HDilUAT-GY6CXkgiP6KHVtSAMU-71TeQPl8-s
 Content-Type: application/json
 
 {
-    "title":"Partizan - Pariz",
-    "description": "balet",
-    "timestamp": 1761394739000,
-    "location": "Stark Arena",
-    "type": "Balet"
+    "title":"Odbrana diplomskog",
+    "description": "odbrana diplomskog u VTSNS",
+    "timestamp": 1761753600000,
+    "location": "Novi Sad",
+    "type": "Graduation",
+    "role": "creator"
 }
 
 ### PUT /EVENT
 PUT http://localhost:5000/events/2
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzI4MTc3LCJleHAiOjE3NjE4MTQ1Nzd9.xzBBqkejKs_6buq1M9w3Ppu_ooMnHJO7QZBdnTippBg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzM1ODg2LCJleHAiOjE3NjE4MjIyODZ9.g3xtq_HDilUAT-GY6CXkgiP6KHVtSAMU-71TeQPl8-s
 Content-Type: application/json
 
 {
     "title":"Utakmica kosarke",
     "description": "Zvezda - Baskonia",
-    "timestamp": 1761394739000,
+    "timestamp": 1761753600000,
     "location": "Stark Arena",
-    "type": "Basketball"
+    "type": "Basketball",
+    "role": "visitor"
 }
 
 ### DELETE /EVENT

@@ -11,11 +11,12 @@ type UpdateEventModalProps = {
     event: EventObject
     setShowUpdateModal: React.Dispatch<React.SetStateAction<boolean>>,
     fetchEvents:()=>void
+    fetchUserEvents: ()=> void,
     fetchEventLocations:()=>void
     fetchEventTypes:()=>void
 }
 
-export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, fetchEventTypes, fetchEventLocations}:UpdateEventModalProps){
+export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents,fetchUserEvents, fetchEventTypes, fetchEventLocations}:UpdateEventModalProps){
     const today = dayjs();
     const [title, setTitle] = useState(event.title)
     const [description, setDescription] = useState(event.description)
@@ -29,7 +30,7 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, f
         if (!title || !description || !location || !type || !selectedDate) 
             return (console.log(`You must fill all fields`))
         try{
-            const token = localStorage.getItem('token') || undefined;
+            const token = sessionStorage.getItem('token') || undefined;
             const response = await fetch(`http://localhost:5000/events/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -50,6 +51,7 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents, f
             const data = await response.json();
             console.log(data);
             fetchEvents()
+            fetchUserEvents()
             fetchEventLocations()
             fetchEventTypes()
             setShowUpdateModal(false)

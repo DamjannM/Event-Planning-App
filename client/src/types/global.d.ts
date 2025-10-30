@@ -9,5 +9,6 @@ declare global {
         title: string,
         user_id: number
         type: string
+        role: string
     }
 }

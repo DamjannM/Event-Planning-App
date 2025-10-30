@@ -26,7 +26,7 @@ export function CreateEventModal({setShowModal, fetchEvents, fetchEventTypes, fe
         if (!title || !description || !location || !type || !selectedDate) 
             return (console.log(`You must fill all fields`))
         try{
-            const token = localStorage.getItem('token') || undefined;
+            const token = sessionStorage.getItem('token') || undefined;
             const response = await fetch(`http://localhost:5000/events`, {
                 method: 'POST',
                 headers: {
@@ -38,7 +38,8 @@ export function CreateEventModal({setShowModal, fetchEvents, fetchEventTypes, fe
                     description,
                     location,
                     type,
-                    timestamp
+                    timestamp,
+                    role: 'creator'
                 })
             })
             if (!response.ok) {
