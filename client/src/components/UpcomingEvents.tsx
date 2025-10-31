@@ -169,11 +169,16 @@ export function UpcomingEvents(){
     toast.success(`Event ${event.title} in 10 minutes`);
   });
 
+  socket.on("invite_accepted",()=>{
+    fetchUserEvents();
+  })
+
   return () => {
     socket.off("event_created");
     socket.off("event_updated");
     socket.off("event_deleted");
     socket.off("event_reminder")
+    socket.off("invite_accepted")
   };
 }, [fetchAllEvents,fetchUserEvents,fetchEventLocations,fetchEventTypes]);
 

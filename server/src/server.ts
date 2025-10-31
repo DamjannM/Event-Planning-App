@@ -5,6 +5,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
+import inviteRoutes from "./routes/inviteRoutes";
 import authMiddleware from "./middleware/authMiddleware";
 import db from './db'
 
@@ -57,6 +58,7 @@ export const notifyAllClients = (eventName: string, data: any) => {
 
 app.get("/", (_, res) => res.json({ message: "Hello from backend" }));
 app.use("/auth", authRoutes);
+app.use("/invite", inviteRoutes);
 app.use("/events", authMiddleware, eventRoutes);
 
 const PORT = process.env.PORT || 5000;

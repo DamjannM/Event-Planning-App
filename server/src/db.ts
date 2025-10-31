@@ -27,7 +27,8 @@ db.exec(`
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
   user_id INTEGER NOT NULL REFERENCES users(id),
-  role TEXT CHECK(role IN ('creator', 'visitor')) NOT NULL
+  role TEXT CHECK(role IN ('creator', 'visitor')) NOT NULL,
+  status TEXT DEFAULT 'pending'
   )
 `)
 
