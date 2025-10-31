@@ -1,12 +1,14 @@
-### TEST GET/WEBSITE
-GET http://localhost:5000
+### GET ALL EVENT PARTICIPANTS FOR ALL EVENTS
+GET http://localhost:5000/events/ep
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxODMxNzI0LCJleHAiOjE3NjE5MTgxMjR9.VC_7zC2Qv_ECiFCIjm6QRJyyLsAI1Kp3paGDVnSN_0E
+Content-Type: application/json
 
 ### REGISTER
 POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "ts@gmail.com", "password": "sifra123"
+    "email": "test@gmail.com", "password": "sifra123"
 }
 
 ### LOGIN
@@ -18,8 +20,8 @@ Content-Type: application/json
 }
 
 ### GET /EVENTS
-GET http://localhost:5000/events/all
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzYxNzQxNTgzLCJleHAiOjE3NjE4Mjc5ODN9.aVmm1T6Zlira5EI5ZijMqjDBEet1w3iV0cquseUizzY
+GET http://localhost:5000/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxODMxNzI0LCJleHAiOjE3NjE5MTgxMjR9.VC_7zC2Qv_ECiFCIjm6QRJyyLsAI1Kp3paGDVnSN_0E
 
 ### GET /EVENTS/FILTERED
 GET http://localhost:5000/events?location=Stark Arena&type=Basketball

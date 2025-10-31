@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Refactored HTTP requests and added new one for joining and canceling participation in events. Changed token to sessionStorage.
+Implementing sending invites via email.
 
 ### Backend
 
-New routes for joining event, new database for event participants.
+New routes for sending invites via email, refactored database with event participants with state if invite is accepted/declined/pending.
 
 ## Installation
 
