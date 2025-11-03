@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Implementing sending invites via email.
+Imported React Routes for password reset, reset password logic
 
 ### Backend
 
-New routes for sending invites via email, refactored database with event participants with state if invite is accepted/declined/pending.
+New routes for password reset, users db refactored for storing reset token
 
 ## Installation
 

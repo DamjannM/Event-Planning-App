@@ -8,7 +8,7 @@ POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com", "password": "sifra123"
+    "email": "ts@gmail.com", "password": "sifra123"
 }
 
 ### LOGIN
@@ -16,7 +16,7 @@ POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com", "password": "sifra123" 
+    "email": "ts@gmail.com", "password": "sifra1234" 
 }
 
 ### GET /EVENTS
@@ -66,3 +66,20 @@ Content-Type: application/json
 ### DELETE /EVENT
 DELETE http://localhost:5000/events/2
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxNzI4MTc3LCJleHAiOjE3NjE4MTQ1Nzd9.xzBBqkejKs_6buq1M9w3Ppu_ooMnHJO7QZBdnTippBg
+
+
+### POST RESET PASSWORD 
+POST http://localhost:5000/auth/forgot-password/
+Content-Type: application/json
+
+{
+    "email":"ts@gmail.com"
+}
+
+### Password reset
+POST http://localhost:5000/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzYyMTYxNzIxLCJleHAiOjE3NjIxNjUzMjF9.p98YAVIz5dFeawEAuFXTVx8TGKa5TVk5EgQTD8W0qAU
+Content-Type: application/json
+
+{
+    "password":"sifra1234"
+}

@@ -5,7 +5,9 @@ db.exec(`
   CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE,
-    password TEXT
+    password TEXT,
+    reset_token TEXT,
+    reset_expires INTEGER
   )
 `)
 

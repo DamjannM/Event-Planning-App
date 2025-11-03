@@ -119,6 +119,7 @@ const Login: React.FC<ChildProps> = ({
       >
         Login
       </Button>
+      <a href="http://localhost:5173/forgot-password" className='underline'>Forgot password?</a>
       <Typography variant="subtitle2" className='!text-lg'>Don't have an account yet? </Typography>
       <Button onClick={handleRegister} size="large">
         Register
