@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Imported React Routes for password reset, reset password logic
+New Route for Attendance Overview
 
 ### Backend
 
-New routes for password reset, users db refactored for storing reset token
+New route for Attendance Overview
 
 ## Installation
 

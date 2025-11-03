@@ -29,7 +29,8 @@ export function Card({event, fetchUserEvents}: CardProps){
                 },
                 body: JSON.stringify({
                     id: event.id,
-                    role: 'visitor'
+                    role: 'visitor',
+                    status: 'accepted'
                 })
             })
             if (response.status==409){

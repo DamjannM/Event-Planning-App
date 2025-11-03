@@ -6,6 +6,7 @@ import { UpcomingEvents } from "./components/UpcomingEvents";
 import { Route, Routes } from "react-router-dom";
 import { ResetPassword } from "./pages/ResetPassword";
 import { ForgotPassword } from "./pages/ForgotPassword";
+import { AttendanceOverview } from "./components/AttendanceOverview";
 
 function App() {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path="/forgot-password" element={<ForgotPassword/>} />
       <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+      <Route path="/attendance" element={<AttendanceOverview />} />
       <Route path="/" element={
 
     <div className="max-w-dvw min-h-screen background flex justify-center min-w-90">

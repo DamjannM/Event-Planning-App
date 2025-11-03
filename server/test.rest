@@ -1,6 +1,6 @@
 ### GET ALL EVENT PARTICIPANTS FOR ALL EVENTS
 GET http://localhost:5000/events/ep
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYxODMxNzI0LCJleHAiOjE3NjE5MTgxMjR9.VC_7zC2Qv_ECiFCIjm6QRJyyLsAI1Kp3paGDVnSN_0E
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYyMTY5MjkzLCJleHAiOjE3NjIyNTU2OTN9.cxilF4EDmjyhgZMflpSfSVUM67IhYVgpp1cgDAEPJWA
 Content-Type: application/json
 
 ### REGISTER
@@ -16,7 +16,7 @@ POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email": "ts@gmail.com", "password": "sifra1234" 
+    "email": "test@gmail.com", "password": "sifra123" 
 }
 
 ### GET /EVENTS
@@ -83,3 +83,8 @@ Content-Type: application/json
 {
     "password":"sifra1234"
 }
+
+### ATTENDANCE OVERVIEW
+GET http://localhost:5000/events/attendance
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzYyMTY5NjY1LCJleHAiOjE3NjIyNTYwNjV9.m-k_0nNsU182NpxT3_qe4JPn7B85ki6iTSXHro_L_dA
+Content-Type: application/json
