@@ -7,6 +7,7 @@ import { Calendar } from "./Calendar";
 import { EventList } from "./EventList";
 import { socket } from "../socket";
 import { toast, Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 
 export function UpcomingEvents(){
@@ -169,7 +170,7 @@ export function UpcomingEvents(){
     toast.success(`Event ${event.title} in 10 minutes`);
   });
 
-  socket.on("invite_accepted",()=>{
+  socket.on("invite_answer",()=>{
     fetchUserEvents();
   })
 
@@ -178,7 +179,7 @@ export function UpcomingEvents(){
     socket.off("event_updated");
     socket.off("event_deleted");
     socket.off("event_reminder")
-    socket.off("invite_accepted")
+    socket.off("invite_answer")
   };
 }, [fetchAllEvents,fetchUserEvents,fetchEventLocations,fetchEventTypes]);
 
@@ -222,6 +223,7 @@ export function UpcomingEvents(){
         </div>
     </div>
     <p className="text-2xl font-bold text-indigo-950 ">Your Events</p>
+    <Link to={'/attendance'} className="underline">Events Attendance Overview</Link>
     <div className="flex flex-col md:flex-row bg-transparent gap-2">
         <Calendar daysWithEvents={daysWithEvents} daysOfWeek={daysOfWeek} monthsOfYear={monthsOfYear} currentMonth={currentMonth} 
         currentYear={currentYear} setCurrentMonth={setCurrentMonth} setCurrentYear={setCurrentYear} currentDate={currentDate} 

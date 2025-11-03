@@ -164,7 +164,7 @@ router.post('/', (req,res)=> {
 // join event
 router.post('/join', (req,res)=> {
   try{
-    const {id , role} = req.body
+    const {id , role,status} = req.body
     const userId = req.userId!
     
     const existing = db
@@ -175,7 +175,7 @@ router.post('/join', (req,res)=> {
       return res.status(409).json({ message: "You already joined this event" });
     }
     
-    const event =db.prepare(`INSERT INTO event_participants (event_id, user_id, role) VALUES (?, ?, ?)`).run(id, userId, role);
+    const event =db.prepare(`INSERT INTO event_participants (event_id, user_id, role, status) VALUES (?, ?, ?, ?)`).run(id, userId, role,status);
     res.json(event)
   }catch(err){
     console.log(err)
@@ -310,5 +310,36 @@ router.post("/:id/invite", async (req, res) => {
   }
 });
 
+//OVERVIEW
+router.get("/attendance", (req, res) => {
+  const userId = req.userId!;
+
+  const query = `
+  SELECT 
+    e.id AS event_id,
+    e.title,
+    COUNT(ep.id) AS total_invited,
+    SUM(CASE WHEN ep.status = 'accepted' THEN 1 ELSE 0 END) AS accepted,
+    SUM(CASE WHEN ep.status = 'declined' THEN 1 ELSE 0 END) AS declined,
+    SUM(CASE WHEN ep.status = 'pending' THEN 1 ELSE 0 END) AS pending,
+    COALESCE(
+      ROUND(
+        (SUM(CASE WHEN ep.status = 'accepted' THEN 1 ELSE 0 END) * 100.0) /
+        NULLIF(COUNT(ep.id), 0),
+        1
+      ),
+      0.0
+    ) AS attendance_rate
+  FROM events e
+  LEFT JOIN event_participants ep 
+    ON e.id = ep.event_id AND ep.role = 'visitor'
+  WHERE e.user_id = ?
+  GROUP BY e.id
+  ORDER BY e.timestamp DESC
+  `;
+
+  const data = db.prepare(query).all(userId);
+  res.json(data);
+});
 
 export default router

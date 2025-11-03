@@ -19,8 +19,8 @@ router.get("/:action", (req, res) => {
       "UPDATE event_participants SET status = ? WHERE event_id = ? AND user_id = ?"
     ).run(status, eventId, userId);
     
-    if (status == 'accepted'){
-      notifyAllClients("invite_accepted", 'refresh')
+    if (status == 'accepted' || status=='declined'){
+      notifyAllClients("invite_answer", 'refresh')
     }
     res.send(`<h3>✅ Invitation ${status}!</h3><p>You can now close this tab.</p>`);
   }catch(err){
