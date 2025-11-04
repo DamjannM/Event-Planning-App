@@ -2,11 +2,11 @@
 
 ### Frontend
 
-New Route for Attendance Overview
+Dockerization
 
 ### Backend
 
-New route for Attendance Overview
+Migration to PostgreSQL using Prisma ORM plus Dockerization
 
 ## Installation
 

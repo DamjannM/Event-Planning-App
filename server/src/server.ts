@@ -1,15 +1,22 @@
-import express from "express";
+(BigInt.prototype as any).toJSON = function () {
+  return Number(this);
+};
+
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import inviteRoutes from "./routes/inviteRoutes";
 import authMiddleware from "./middleware/authMiddleware";
-import db from './db'
+dotenv.config({
+  path: path.resolve(__dirname, "../.env"),
+});
 
-dotenv.config();
+import express from "express";
+import prisma from "./prismaClient";
 
 const app = express();
 app.use(cors());
@@ -32,14 +39,19 @@ io.on("connection", (socket) => {
 });
 
 let notified = new Set<number>()
-setInterval(() => {
+setInterval( async () => {
   try{
     const now = Date.now();
-    const upcoming = db.prepare(
-      "SELECT * FROM events WHERE timestamp BETWEEN ? AND ?"
-    ).all(now, now + 10 * 60 * 1000); 
+    const upcoming = await prisma.event.findMany({
+  where: {
+    timestamp: {
+      gte: BigInt(now),                  
+      lte: BigInt(now + 10 * 60 * 1000)
+    },
+  },
+}); 
     
-    upcoming.forEach(event => {
+    upcoming.forEach((event: { id: number; }) => {
       const id = event.id as number;
       if (!notified.has(id)) {
         console.log('event reminder for event', event)

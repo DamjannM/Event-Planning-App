@@ -1,10 +1,10 @@
 import express from 'express'
-import db from '../db'
 import { notifyAllClients } from "../server";
+import prisma from '../prismaClient';
 
 const router = express.Router()
 
-router.get("/:action", (req, res) => {
+router.get("/:action", async (req, res) => {
   try{
     const { action } = req.params;
     const eventId = Number(req.query.event); 
@@ -15,9 +15,17 @@ router.get("/:action", (req, res) => {
     }
     
     const status = action === "accept" ? 'accepted' : 'declined';
-    db.prepare(
-      "UPDATE event_participants SET status = ? WHERE event_id = ? AND user_id = ?"
-    ).run(status, eventId, userId);
+    await prisma.eventParticipant.update({
+      where: {
+        event_id_user_id: {
+          event_id: 3,
+          user_id: 2,
+        },
+      },
+      data: {
+        status: status,
+      },
+    });
     
     if (status == 'accepted' || status=='declined'){
       notifyAllClients("invite_answer", 'refresh')
