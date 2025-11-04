@@ -8,52 +8,64 @@ Dockerization
 
 Migration to PostgreSQL using Prisma ORM plus Dockerization
 
-## Installation
+Dockerized full-stack EventPlanning application
 
-### 1. Clone the repository
+## Tech Stack
+
+**Frontend:** React, TypeScript, Tailwind CSS, Material UI,Recharts for data overview
+**Backend:** Node.js, Express.js, JWT, SQLite (later migration to PostgreSQL, Prisma ORM), Socket.IO, Ethereal for mailing
+**Database:** (SQLite for testing) migrated to PostgreSQL, Prisma ORM
+
+## Getting Started
+
+0. **Install Docker Desktop**
+
+1. **Clone the Repository**:
 
 ```bash
 git clone https://github.com/DamjannM/Event-Planning-App.git
 cd event-planning-app
 ```
 
-### 2. Install dependencies
+2. **Generate the Prisma Client**:
 
-Backend
+`npx prisma generate`
 
-```bash
-cd server
-npm install
-```
+3. **Build your docker images**:
 
-Frontend
+`docker compose build`
 
-```bash
-cd client
-npm install
-```
+4. **Create PostgreSQL migrations and apply them**:
 
-### 3. Create environment variable
+`docker compose run app npx prisma migrate dev --name init`
 
-.env file in server folder
-`JWT_SECRET = "secret_key"
-PORT = 5000`
+_Also_ - to run/apply migrations if necessary:
 
-### 4. Run application
+`docker-compose run app npx prisma migrate deploy`
 
-Backend
+5. **Boot up docker containers**:
 
-```bash
-cd server
-npm run dev
-```
+`docker compose up`
 
-Frontend
+6.  **Access the App**:
 
-```bash
-cd client
-npm run dev
-```
+Open `http://localhost:5173/` in your browser to see the frontend. You can register, log in, and play X-O against AI from there.
 
-Open the app in your browser:
-`http://localhost:5173`
+The **REST Client** file (`test.rest`) is provided to help you test the API using HTTP requests directly. You can run these requests using the **REST Client** extension for VS Code or other compatible tools.
+
+### `test.rest`
+
+The `test.rest` file includes requests for:
+
+- **Registering a user**: Sends a `POST` request to create a new user.
+- **Logging in**: Sends a `POST` request to authenticate a user and retrieve a JWT token.
+- **Fetching events**: Sends a `GET` request to fetch the authenticated user's events (JWT required).
+- **Adding a event**: Sends a `POST` request to create a new event (JWT required).
+- **Updating a event**: Sends a `PUT` request to update an existing event (JWT required).
+
+### How to Use the REST Client
+
+1. Install the **REST Client** extension for VS Code.
+2. Open `test.rest`.
+3. Run the requests by clicking on the "Send Request" link above each block of HTTP code.
+4. Make sure to copy the token from the login response and replace `{{token}}` with the actual JWT token for protected routes.
