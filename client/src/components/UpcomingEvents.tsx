@@ -222,8 +222,10 @@ export function UpcomingEvents(){
             </div>
         </div>
     </div>
-    <p className="text-2xl font-bold text-indigo-950 ">Your Events</p>
-    <Link to={'/attendance'} className="underline">Events Attendance Overview</Link>
+    <div className="flex items-center justify-center gap-3 text-indigo-950">
+      <p className="text-2xl font-bold">Your Events</p>
+      <Link to={'/attendance'} className="underline">Events Attendance Overview</Link>
+    </div>
     <div className="flex flex-col md:flex-row bg-transparent gap-2">
         <Calendar daysWithEvents={daysWithEvents} daysOfWeek={daysOfWeek} monthsOfYear={monthsOfYear} currentMonth={currentMonth} 
         currentYear={currentYear} setCurrentMonth={setCurrentMonth} setCurrentYear={setCurrentYear} currentDate={currentDate} 
