@@ -18,8 +18,8 @@ router.get("/:action", async (req, res) => {
     await prisma.eventParticipant.update({
       where: {
         event_id_user_id: {
-          event_id: 3,
-          user_id: 2,
+          event_id: eventId,
+          user_id: userId,
         },
       },
       data: {

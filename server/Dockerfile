@@ -10,9 +10,7 @@ RUN npm install
 # Copy project files including schema
 COPY . .
 
-# Generate Prisma client
-RUN npx prisma generate --schema=./prisma/schema.prisma
-
 # Expose port and start
 EXPOSE 5000
-CMD ["npm", "run", "dev"]
+
+CMD npx prisma generate && npm run dev

@@ -24,7 +24,7 @@ Dockerized full-stack EventPlanning application
 
 ```bash
 git clone https://github.com/DamjannM/Event-Planning-App.git
-cd event-planning-app
+cd Event-Planning-App
 ```
 
 2. **Generate the Prisma Client**:
