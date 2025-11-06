@@ -47,7 +47,7 @@ _Also_ - to run/apply migrations if necessary:
 
 6.  **Access the App**:
 
-Open `http://localhost:5173/` in your browser to see the frontend. You can register, log in, and play X-O against AI from there.
+Open `http://localhost:5173/` in your browser to see the frontend. You can register, log in, create events, join existing one, see statistics of events created by you, send invites via email to already registered users, search and filter events by type and location.
 
 The **REST Client** file (`test.rest`) is provided to help you test the API using HTTP requests directly. You can run these requests using the **REST Client** extension for VS Code or other compatible tools.
 
@@ -60,6 +60,7 @@ The `test.rest` file includes requests for:
 - **Fetching events**: Sends a `GET` request to fetch the authenticated user's events (JWT required).
 - **Adding a event**: Sends a `POST` request to create a new event (JWT required).
 - **Updating a event**: Sends a `PUT` request to update an existing event (JWT required).
+- **Deleting a event**: Sends a `DELETE` request to delete an existing event (JWT required).
 
 ### How to Use the REST Client
 
