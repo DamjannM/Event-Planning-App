@@ -11,7 +11,7 @@ interface EventQuery {
 }
 interface EventParticipant {
   id: number;
-  status: "accepted" | "declined" | "pending";
+  status: string;
 }
 interface Event {
   id: number;
@@ -410,7 +410,7 @@ router.post("/:id/invite", async (req, res) => {
       },
     });
 
-    const baseUrl = "http://localhost:5000";
+    const baseUrl = "http://localhost:8080";
     const acceptUrl = `${baseUrl}/invite/accept?event=${id}&user=${invitedUser.id}`;
     const declineUrl = `${baseUrl}/invite/decline?event=${id}&user=${invitedUser.id}`;
 
@@ -451,7 +451,10 @@ router.get("/attendance", async (req, res) => {
       include: {
         event_participants: {
           where: { role: "visitor" },
-          select: { status: true },
+          select: { 
+            id: true,
+            status: true 
+          },
         },
       },
       orderBy: { timestamp: "desc" },

@@ -2,13 +2,11 @@
 
 ### Frontend
 
-Dockerization
+Implemented nginx and changed all fetch methods to nginx port 8080
 
 ### Backend
 
-Migration to PostgreSQL using Prisma ORM plus Dockerization
-
-Dockerized full-stack EventPlanning application
+Iplemented nginx, and socketio redis to prevent bug when socket not firing event.
 
 ## Tech Stack
 

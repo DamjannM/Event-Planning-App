@@ -31,7 +31,7 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents,fe
             return (console.log(`You must fill all fields`))
         try{
             const token = sessionStorage.getItem('token') || undefined;
-            const response = await fetch(`http://localhost:5000/events/${id}`, {
+            const response = await fetch(`http://localhost:8080/events/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,8 +109,10 @@ export function UpdateEventModal({isOpen,event,setShowUpdateModal,fetchEvents,fe
                 <label className="text-indigo-900">Date: </label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker 
-                onChange={(e) => setSelectedDate(e)}
-                defaultValue={date}
+                onChange={(value) => {
+                    if (value) {setSelectedDate(value?.second(0).millisecond(0))}}
+                }
+                defaultValue={date.second(0).millisecond(0)}
                 minDate={today}
                 ampm={false} 
                 views={['year', 'month', 'day', 'hours', 'minutes']}/>

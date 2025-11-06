@@ -24,7 +24,7 @@ export function InviteOpenModal({event, isOpen, setInviteOpenModal}:InviteOpenMo
                 return
             }
             const token = sessionStorage.getItem('token') || undefined;
-            const response = await fetch(`http://localhost:5000/events/${id}/invite`, {
+            const response = await fetch(`http://localhost:8080/events/${id}/invite`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

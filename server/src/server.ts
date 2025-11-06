@@ -17,15 +17,26 @@ dotenv.config({
 
 import express from "express";
 import prisma from "./prismaClient";
+import { createAdapter } from "@socket.io/redis-adapter";
+import Redis from "ioredis";
+
+const pubClient = new Redis({
+  host: "redis",
+  port: 6379,
+});
+const subClient = pubClient.duplicate();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+const nginxReplica = process.env.APP_NAME
+console.log(`Request server by ${nginxReplica}`)
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", 
+    origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -36,6 +47,18 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Client disconnected:", socket.id);
   });
+});
+
+async function setupSocketAdapter() {
+  await Promise.all([
+    new Promise<void>((resolve) => pubClient.once("ready", resolve)),
+    new Promise<void>((resolve) => subClient.once("ready", resolve)),
+  ]);
+
+  io.adapter(createAdapter(pubClient, subClient));
+}
+setupSocketAdapter().catch((err) => {
+  console.error("Redis adapter setup failed:", err);
 });
 
 let notified = new Set<number>()
@@ -73,7 +96,7 @@ app.use("/auth", authRoutes);
 app.use("/invite", inviteRoutes);
 app.use("/events", authMiddleware, eventRoutes);
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+const PORT = parseInt(process.env.PORT||'5000',10);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`${nginxReplica} started on port ${PORT}`);
 });
