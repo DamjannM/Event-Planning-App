@@ -11,6 +11,7 @@ import authRoutes from "./routes/authRoutes";
 import eventRoutes from "./routes/eventRoutes";
 import inviteRoutes from "./routes/inviteRoutes";
 import authMiddleware from "./middleware/authMiddleware";
+
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
@@ -19,12 +20,6 @@ import express from "express";
 import prisma from "./prismaClient";
 import { createAdapter } from "@socket.io/redis-adapter";
 import Redis from "ioredis";
-
-const pubClient = new Redis({
-  host: "redis",
-  port: 6379,
-});
-const subClient = pubClient.duplicate();
 
 const app = express();
 app.use(cors());
@@ -48,6 +43,12 @@ io.on("connection", (socket) => {
     console.log("Client disconnected:", socket.id);
   });
 });
+
+const pubClient = new Redis({
+  host: "redis",
+  port: 6379,
+});
+const subClient = pubClient.duplicate();
 
 async function setupSocketAdapter() {
   await Promise.all([
