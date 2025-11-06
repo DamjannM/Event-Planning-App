@@ -11,7 +11,7 @@ Iplemented nginx, and socketio redis to prevent bug when socket not firing event
 ## Tech Stack
 
 **Frontend:** React, TypeScript, Tailwind CSS, Material UI,Recharts for data overview
-**Backend:** Node.js, Express.js, JWT, SQLite (later migration to PostgreSQL, Prisma ORM), Socket.IO, Ethereal for mailing
+**Backend:** Node.js, Express.js, JWT, SQLite (later migration to PostgreSQL, Prisma ORM), Socket.IO, Nginx, Ethereal for mailing
 **Database:** (SQLite for testing) migrated to PostgreSQL, Prisma ORM
 
 ## Getting Started
