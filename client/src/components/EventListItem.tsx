@@ -25,7 +25,7 @@ export function EventListItem({event,fetchEvents,fetchUserEvents, fetchEventType
     async function handleDelete(id:number){
         try{
             const token = sessionStorage.getItem('token') || undefined;
-            const response = await fetch(`http://localhost:5000/events/${id}`, {
+            const response = await fetch(`http://localhost:8080/events/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: token ? token : '',
@@ -46,7 +46,7 @@ export function EventListItem({event,fetchEvents,fetchUserEvents, fetchEventType
     async function cancleEvent(id:number){
         try{
             const token = sessionStorage.getItem('token') || undefined;
-            const response = await fetch(`http://localhost:5000/events/cancel/${id}`, {
+            const response = await fetch(`http://localhost:8080/events/cancel/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: token ? token : '',

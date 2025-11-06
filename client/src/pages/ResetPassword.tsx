@@ -13,7 +13,7 @@ export function ResetPassword() {
     if (password.length < 8)
       return setMessage('❌ Password must contain atleast 8 characters')
     try {
-      const res = await fetch(`http://localhost:5000/auth/reset-password/${token}`, {
+      const res = await fetch(`http://localhost:8080/auth/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),

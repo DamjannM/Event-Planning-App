@@ -40,7 +40,7 @@ export function UpcomingEvents(){
     
   const fetchAllEvents = useCallback(async (signal?:AbortSignal) => {
     try {
-      const response = await fetch(`http://localhost:5000/events/all?${queryParams}`, {
+      const response = await fetch(`http://localhost:8080/events/all?${queryParams}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: token ? token : '',
@@ -61,7 +61,7 @@ export function UpcomingEvents(){
 
     const fetchUserEvents = useCallback(async (signal?:AbortSignal) => {
     try {
-      const response = await fetch(`http://localhost:5000/events/?${queryParams}`, {
+      const response = await fetch(`http://localhost:8080/events/?${queryParams}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: token ? token : '',
@@ -82,7 +82,7 @@ export function UpcomingEvents(){
   
   const fetchEventLocations = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/events/location', {
+      const response = await fetch('http://localhost:8080/events/location', {
         headers: {
           Authorization: token ? token : '',
         },
@@ -101,7 +101,7 @@ export function UpcomingEvents(){
 
     const fetchEventTypes = useCallback(async () => {
       try {
-        const response = await fetch('http://localhost:5000/events/type', {
+        const response = await fetch('http://localhost:8080/events/type', {
           headers: {
             Authorization: token ? token : '',
           },

@@ -22,7 +22,7 @@ const SignUp: React.FC<ChildProps> = ({ token, setIsRegistered }) => {
       return setServerMessage('❌ Invalid email format');
     if (user.password.length < 8)
       return setServerMessage('❌ Password must contain atleast 8 characters');
-    const response = await fetch('http://localhost:5000/auth/register', {
+    const response = await fetch('http://localhost:8080/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

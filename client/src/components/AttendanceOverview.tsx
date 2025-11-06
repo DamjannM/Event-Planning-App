@@ -26,7 +26,7 @@ export function AttendanceOverview() {
   useEffect(() => {
     const fetchOverview = async () => {
       try {
-        const response = await fetch("http://localhost:5000/events/attendance", {
+        const response = await fetch("http://localhost:8080/events/attendance", {
           headers: { Authorization: token || "" },
         });
         const data = await response.json();

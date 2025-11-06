@@ -21,7 +21,7 @@ export function Card({event, fetchUserEvents}: CardProps){
     async function joinEvent() {
         try{
             const token = sessionStorage.getItem('token') || undefined;
-            const response = await fetch(`http://localhost:5000/events/join`, {
+            const response = await fetch(`http://localhost:8080/events/join`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
