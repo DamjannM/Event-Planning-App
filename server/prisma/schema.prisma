@@ -26,11 +26,11 @@ model User {
 model Event {
   id          Int                 @id @default(autoincrement())
   user_id     Int
-  description String?
+  description String
   title       String              @db.VarChar(20)
-  timestamp   BigInt?
-  location    String?
-  type        String?
+  timestamp   BigInt
+  location    String
+  type        String
   user        User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
   event_participants EventParticipant[]
 }

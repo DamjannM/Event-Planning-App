@@ -8,6 +8,7 @@ import { EventList } from "./EventList";
 import { socket } from "../socket";
 import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { DetailsModal } from "./DetailsModal";
 
 
 export function UpcomingEvents(){
@@ -29,6 +30,8 @@ export function UpcomingEvents(){
     const [selectedDay, setSelectedDay]= useState(currentDate.date())
     const [selectedMonth, setSelectedMonth] = useState(currentMonth)
     const [selectedYear, setSelectedYear] = useState(currentYear)
+    const [showDetailsModal, setShowDetailsModal] = useState(false)
+    const [selectedEvent, setSelectedEvent] = useState<EventObject | undefined>(undefined)
 
     const token = sessionStorage.getItem('token') || undefined;
     const queryParams = new URLSearchParams({
@@ -183,6 +186,11 @@ export function UpcomingEvents(){
   };
 }, [fetchAllEvents,fetchUserEvents,fetchEventLocations,fetchEventTypes]);
 
+const handleOpenModal = (event:EventObject | undefined) => {
+        setShowDetailsModal(true)
+        setSelectedEvent(event)
+    }
+
   return <>
     <Toaster position="top-center" />
     {openModal ? <CreateEventModal setShowModal={setShowModal} fetchEvents={fetchAllEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/> : null}
@@ -217,7 +225,7 @@ export function UpcomingEvents(){
                 {globalEvents?.slice()
                 .sort((a, b) => a.timestamp - b.timestamp)
                 .map(e => ((e.timestamp<currentDate.valueOf())? null :
-                    <Card key={e.id} event={e} fetchUserEvents={fetchUserEvents}/>
+                    <Card key={e.id} event={e} fetchUserEvents={fetchUserEvents} showDetailsModal={showDetailsModal} handleOpenModal={handleOpenModal}/>
                 ))}
             </div>
         </div>
@@ -232,7 +240,9 @@ export function UpcomingEvents(){
         selectedDay={selectedDay} selectedMonth={selectedMonth} selectedYear={selectedYear} setSelectedDay={setSelectedDay} 
         setSelectedMonth={setSelectedMonth} setSelectedYear={setSelectedYear}/>
         <EventList events={events}  selectedMonth={selectedMonth} selectedYear={selectedYear} selectedDay={selectedDay} 
-        fetchEvents={fetchUserEvents} fetchUserEvents={fetchUserEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}/>
+        fetchEvents={fetchUserEvents} fetchUserEvents={fetchUserEvents} fetchEventTypes={fetchEventTypes} fetchEventLocations={fetchEventLocations}
+        showDetailsModal={showDetailsModal} handleOpenModal={handleOpenModal}/>
+        <DetailsModal events={selectedEvent} setShowDetailsModal={setShowDetailsModal} isOpen={showDetailsModal} monthsOfYear={monthsOfYear}/>
     </div>
     </>
 }

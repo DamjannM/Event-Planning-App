@@ -4,6 +4,7 @@ services:
     container_name: event-planner-app1
     environment:
       - APP_NAME=App1
+      - LEADER=true
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/eventplannerapp
       - JWT_SECRET=jwt-secret-key
       - NODE_ENV=development
@@ -18,6 +19,7 @@ services:
     container_name: event-planner-app2
     environment:
       - APP_NAME=App2
+      - LEADER=false
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/eventplannerapp
       - JWT_SECRET=jwt-secret-key
       - NODE_ENV=development
@@ -32,6 +34,7 @@ services:
     container_name: event-planner-app3
     environment:
       - APP_NAME=App3
+      - LEADER=false
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/eventplannerapp
       - JWT_SECRET=jwt-secret-key
       - NODE_ENV=development

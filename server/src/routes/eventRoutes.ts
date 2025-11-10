@@ -24,11 +24,6 @@ const router = express.Router()
 //Get all event participants
 router.get("/ep", async (req, res) => {
   try{
-    // let query = `
-    // SELECT *
-    // FROM event_participants
-    // `;
-    // const data = db.prepare(query).all()
     const data = await prisma.eventParticipant.findMany()
     res.json(data)
   }catch(err){
@@ -134,8 +129,6 @@ router.get("/all", async (req, res) => {
 //Get all events locations
 router.get('/location', async (req,res)=> {
   try{
-    // const getEvents = db.prepare('SELECT DISTINCT location FROM events')
-    // const events = getEvents.all()
     const events = await prisma.event.findMany({
       distinct: ['location'],      
       select: { location: true },  
@@ -424,7 +417,7 @@ router.post("/:id/invite", async (req, res) => {
         <p>${description}</p>
         <p><b>Location:</b> ${location}</p>
         <p><b>Type:</b> ${type}</p>
-        <p><b>Date:</b> ${new Date(timestamp).toLocaleString()}</p>
+        <p><b>Date:</b> ${new Date(timestamp).toLocaleString('sr-RS', {timeZone: 'Europe/Belgrade'})}</p>
         <a href="${acceptUrl}">✅ Accept</a> | 
         <a href="${declineUrl}">❌ Decline</a>
       `,

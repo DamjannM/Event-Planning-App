@@ -62,32 +62,34 @@ setupSocketAdapter().catch((err) => {
   console.error("Redis adapter setup failed:", err);
 });
 
-let notified = new Set<number>()
-setInterval( async () => {
-  try{
-    const now = Date.now();
-    const upcoming = await prisma.event.findMany({
-  where: {
-    timestamp: {
-      gte: BigInt(now),                  
-      lte: BigInt(now + 10 * 60 * 1000)
-    },
-  },
-}); 
-    
-    upcoming.forEach((event: { id: number; }) => {
-      const id = event.id as number;
-      if (!notified.has(id)) {
-        console.log('event reminder for event', event)
-        io.emit("event_reminder", event);
-        notified.add(id);
-      }
-    });
-  }catch( err){
-    console.log(`error ${err}`)
-  }
-}, 60 * 1000)
-
+if (process.env.LEADER === "true"){
+  let notified = new Set<number>()
+  setInterval( async () => {
+    try{
+      const now = Date.now();
+      const upcoming = await prisma.event.findMany({
+        where: {
+          timestamp: {
+            gte: BigInt(now),                  
+            lte: BigInt(now + 10 * 60 * 1000)
+          },
+        },
+      }); 
+      
+      upcoming.forEach((event: { id: number; }) => {
+        const id = event.id as number;
+        if (!notified.has(id)) {
+          console.log('event reminder for event', event)
+          io.emit("event_reminder", event);
+          notified.add(id);
+        }
+      });
+    }catch( err){
+      console.log(`error ${err}`)
+    }
+  }, 60 * 1000)
+}
+  
 export const notifyAllClients = (eventName: string, data: any) => {
   io.emit(eventName, data);
 };

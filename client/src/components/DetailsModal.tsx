@@ -2,12 +2,14 @@ import { FaXmark } from "react-icons/fa6";
 
 type DetailsModalProps = {
     isOpen: boolean
-    events: EventObject
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
+    events?: EventObject
+    setShowDetailsModal: React.Dispatch<React.SetStateAction<boolean>>,
     monthsOfYear: string[]
 }
 
-export function DetailsModal({events,setShowModal, isOpen, monthsOfYear}:DetailsModalProps){
+export function DetailsModal({events,setShowDetailsModal, isOpen, monthsOfYear}:DetailsModalProps){
+    if (!events) return null;
+
     const day = new Date(events.timestamp)
     const hours = (day.getHours()<10)? "0"+day.getHours() : day.getHours()
     const minutes = (day.getMinutes()<10)? "0"+day.getMinutes() : day.getMinutes()
@@ -29,7 +31,7 @@ export function DetailsModal({events,setShowModal, isOpen, monthsOfYear}:Details
                 <p className="text-indigo-950 md:text-xl lg:text-2xl flex items-center">{hours}:{minutes}</p>
                 </div>
             </div>
-            <FaXmark className="text-white bg-indigo-500 hover:bg-indigo-600 absolute text-2xl font-bold top-1 right-1 cursor-pointer rounded-full" onClick={()=>setShowModal(false)}/>
+            <FaXmark className="text-white bg-indigo-500 hover:bg-indigo-600 absolute text-2xl font-bold top-1 right-1 cursor-pointer rounded-full" onClick={()=>setShowDetailsModal(false)}/>
         </div>
     )
 }

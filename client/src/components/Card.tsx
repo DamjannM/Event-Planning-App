@@ -2,11 +2,15 @@ import toast from "react-hot-toast"
 import { BsCalendarPlus } from "react-icons/bs"
 
 interface CardProps {
-    event: EventObject,
+    event?: EventObject,
     fetchUserEvents: ()=> void
+    showDetailsModal: boolean,
+    handleOpenModal: (event:EventObject)=> void
 }
 
-export function Card({event, fetchUserEvents}: CardProps){
+export function Card({event, fetchUserEvents, handleOpenModal}: CardProps){
+    if (!event) return null;
+
     const date = new Date(event.timestamp)
     const day = date.getDate()
     const month = date.getMonth()
@@ -28,7 +32,7 @@ export function Card({event, fetchUserEvents}: CardProps){
                     Authorization: token ? token : '',
                 },
                 body: JSON.stringify({
-                    id: event.id,
+                    id: event!.id,
                     role: 'visitor',
                     status: 'accepted'
                 })
@@ -48,7 +52,8 @@ export function Card({event, fetchUserEvents}: CardProps){
         }
     }
 
-    return <div className="h-60 min-h-60 min-w-54 w-54 bg-gray-50 relative flex flex-col justify-between rounded-2xl !p-3 border-1 border-blue-300 shadow-lg shadow-gray-500 overflow-hidden">
+    return <div onClick={()=> handleOpenModal(event)} className="h-60 min-h-60 min-w-54 w-54 bg-gray-50 relative flex flex-col 
+    justify-between rounded-2xl !p-3 border-1 border-blue-300 shadow-lg shadow-gray-500 overflow-hidden">
         <div className="flex flex-col justify-between">
             <div className="flex justify-between items-center">
                 <p className=" text-lg text-indigo-900 font-bold">{event.title}</p>

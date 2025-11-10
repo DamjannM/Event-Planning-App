@@ -9,9 +9,12 @@ type EventListProps = {
     fetchUserEvents: ()=> void,
     fetchEventTypes: ()=>void,
     fetchEventLocations: ()=>void,
+    showDetailsModal: boolean,
+    handleOpenModal: (events:EventObject| undefined)=> void
 }
 
-export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEvents,fetchUserEvents, fetchEventTypes, fetchEventLocations}:EventListProps){
+export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEvents,fetchUserEvents, fetchEventTypes, fetchEventLocations, showDetailsModal, handleOpenModal}:EventListProps){
+    if (!events) return null;
     const filteredEvents = events
     .slice()
     .sort((a, b) => a.timestamp - b.timestamp)
@@ -28,7 +31,8 @@ export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEv
                 .slice().sort((a,b) => a.timestamp - b.timestamp)
                 .map(e => (
                     (new Date(e.timestamp).getDate()== selectedDay && new Date(e.timestamp).getMonth()==selectedMonth && new Date(e.timestamp).getFullYear()== selectedYear)
-                    ?<EventListItem key={e.id} event={e} fetchEvents={fetchEvents} fetchUserEvents={fetchUserEvents} fetchEventLocations={fetchEventLocations} fetchEventTypes={fetchEventTypes}/>
+                    ?<EventListItem key={e.id} event={e} fetchEvents={fetchEvents} fetchUserEvents={fetchUserEvents} fetchEventLocations={fetchEventLocations} fetchEventTypes={fetchEventTypes}
+                    showDetailsModal={showDetailsModal} handleOpenModal={handleOpenModal}/>
                     : '')) : <div className="text-black text-xl !ml-12">You dont have events for selected date</div>}
             {}
         </div>

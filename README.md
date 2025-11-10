@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Implemented nginx and changed all fetch methods to nginx port 8080
+Moved DetailsModal up so it can be opened on click from Card and EventListItem components.
 
 ### Backend
 
-Iplemented nginx, and socketio redis to prevent bug when socket not firing event.
+Fixed Date displaying format in invite email, env variable LEADER for servers so it sends only 1 upcoming event toast from interval.
 
 ## Tech Stack
 
