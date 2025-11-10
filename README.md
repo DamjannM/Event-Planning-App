@@ -2,11 +2,11 @@
 
 ### Frontend
 
-Moved DetailsModal up so it can be opened on click from Card and EventListItem components.
+Background change.
 
 ### Backend
 
-Fixed Date displaying format in invite email, env variable LEADER for servers so it sends only 1 upcoming event toast from interval.
+/
 
 ## Tech Stack
 
