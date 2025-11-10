@@ -25,7 +25,7 @@ export function EventList({events,selectedMonth,selectedYear,selectedDay,fetchEv
         new Date(e.timestamp).getFullYear() === selectedYear
   );
     return(
-        <div className=" scroll-smooth flex flex-col flex-1 min-w-80 !mb-5 !mt-3 !mr-5 !ml-5 bg-gray-50 shadow-2xl border-1 border-gray-200 justify-start rounded-3xl text-white overflow-y-auto lg:min-h-[50vh] lg:max-h-[50vh] md:max-h-105 max-h-92">
+        <div className=" scroll-smooth flex flex-col flex-1 min-w-80 !mb-2 !mt-3 !mr-5 !ml-5 bg-gray-50 shadow-2xl border-1 border-gray-200 justify-start rounded-3xl text-white overflow-y-auto lg:min-h-[50vh] lg:max-h-[50vh] md:max-h-105 max-h-92">
             <h1 className="text-indigo-950 text-xl italic !ml-14">{selectedDay}.{selectedMonth+1}.{selectedYear}.</h1>
             {filteredEvents.length >0 ? events
                 .slice().sort((a,b) => a.timestamp - b.timestamp)
